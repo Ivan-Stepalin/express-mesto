@@ -5,7 +5,7 @@ module.exports.getUsers = (req, res) => {
     .then((users) => res.status(200).send(users))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(400).send({ message: "ошибка id" });
+        res.status(400).send({ message: "Невалидный id" });
       } else {
         res.status(500).send({ message: 'На сервере произошла ошибка' });
       }
@@ -32,7 +32,7 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(400).send({ message: "ошибка валидацации" });
+        res.status(400).send({ message: "Невалидный id" });
       } else {
         res.status(500).send({ message: "На сервере произошла ошибка" });
       }
@@ -50,7 +50,7 @@ module.exports.updateUser = (req, res) => {
           .status(404)
           .send({ message: "Пользователь с указанным id не найден" });
       } else if (err.name === "CastError") {
-        res.status(400).send({ message: "ошибка валидацации" });
+        res.status(400).send({ message: "Невалидный id" });
       } else {
         res.status(500).send({ message: "На сервере произошла ошибка" });
       }
@@ -68,7 +68,7 @@ module.exports.updateUserAvatar = (req, res) => {
           .status(404)
           .send({ message: "Пользователь с указанным id не найден" });
       } else if (err.name === "CastError") {
-        res.status(400).send({ message: "ошибка валидацации" });
+        res.status(400).send({ message: "Невалидный id" });
       } else {
         res.status(500).send({ message: "На сервере произошла ошибка" });
       }
