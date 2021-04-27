@@ -5,7 +5,9 @@ module.exports.getUsers = (req, res) => {
     .then((users) => res.status(200).send(users))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(400).send({ message: "ошибка валидацации" });
+        res.status(400).send({ message: "ошибка id" });
+      } else {
+        res.status(500).send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -13,7 +15,15 @@ module.exports.getUsers = (req, res) => {
 module.exports.getUserById = (req, res) => {
   User.findById(req.params.userId)
     .then((user) => res.status(200).send(user))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      if (err.message === 'NotFound') {
+        res.status(404).send({ message: 'пользователь в базе данных не найден' });
+      } else if (err.name === 'CastError') {
+        res.status(400).send({ message: 'Невалидный id' });
+      } else {
+        res.status(500).send({ message: 'На сервере произошла ошибка' });
+      }
+    });
 };
 
 module.exports.createUser = (req, res) => {
