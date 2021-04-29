@@ -16,8 +16,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint ./",
-    "run": "node app.js",
+    "lint": "npx eslint",
+    "start": "node app.js",
     "dev": "nodemon app.jsx"
   },
   "repository": {
