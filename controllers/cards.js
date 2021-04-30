@@ -5,7 +5,7 @@ module.exports.getCards = (req, res) => {
     .then((cards) => res.status(200).send(cards))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'ошибка id' });
+        res.status(400).send({ message: 'ошибка валидации' });
       } else {
         res.status(500).send({ message: 'На сервере произошла ошибка' });
       }
@@ -20,7 +20,7 @@ module.exports.createCard = (req, res) => {
     .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'ошибка id' });
+        res.status(400).send({ message: 'ошибка валидации' });
       } else {
         res.status(500).send({ message: 'Ошибка на сервере' });
       }
