@@ -7,6 +7,7 @@ const cardRoute = require('./routes/cards');
 const { resourceError } = require('./controllers/resourceError');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const { registrValidation, loginValidation } = require('./middlewares/validation');
 
 const { PORT = 3000 } = process.env;
 
@@ -23,8 +24,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-app.post('/signup', createUser);
-app.post('/signin', login);
+app.post('/signup', registrValidation, createUser);
+app.post('/signin', loginValidation, login);
 
 app.use(auth);
 app.use('/users', userRoute);
