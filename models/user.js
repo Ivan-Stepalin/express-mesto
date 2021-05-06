@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema({
     validate: {
       validator(url) {
         return /(https?):\/\/\w*\S*\./.test(url);
-      }
-    }
+      },
+    },
   },
   email: {
     type: String,

@@ -40,18 +40,18 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params._id)
-  .orFail(new Error('NotFound'))
-  .then(data=> {
-    if(data){
-      if(req.user._id === data.owner._id){
-        Card.findByIdAndRemove(req.params.cardId)
-        .then(card=>res.send({data:card}))
-      } else {
-        throw new ForbiddenError('У вас нет прав удалять чужую карточку')
+    .orFail(new Error('NotFound'))
+    .then((data) => {
+      if (data) {
+        if (req.user._id === data.owner._id) {
+          Card.findByIdAndRemove(req.params.cardId)
+            .then((card) => res.send({ data: card }));
+        } else {
+          throw new ForbiddenError('У вас нет прав удалять чужую карточку');
+        }
       }
-    }
-  })
-  .catch(next)
+    })
+    .catch(next);
 };
 
 module.exports.likeCard = (req, res, next) => {
