@@ -1,3 +1,5 @@
-module.exports.resourceError = (req, res) => {
-  res.status(404).send({ message: 'Запрашиваемый ресурс не найден.' });
+const NotFoundError = require('../errors/notFoundError');
+
+module.exports.resourceError = () => {
+  throw new NotFoundError('Запрашиваемый ресурс не найден.');
 };

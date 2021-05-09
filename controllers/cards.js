@@ -39,12 +39,12 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findById(req.params._id)
+  Card.findById(req.params.id)
     .orFail(new Error('NotFound'))
     .then((data) => {
       if (data) {
-        if (req.user._id === data.owner._id) {
-          Card.findByIdAndRemove(req.params.cardId)
+        if (req.user._id === data.owner._id.toString()) {
+          Card.findByIdAndRemove(req.params.id)
             .then((card) => res.send({ data: card }));
         } else {
           throw new ForbiddenError('У вас нет прав удалять чужую карточку');
@@ -56,7 +56,7 @@ module.exports.deleteCard = (req, res, next) => {
 
 module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
-    req.params.cardId,
+    req.params.id,
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
@@ -79,7 +79,7 @@ module.exports.likeCard = (req, res, next) => {
 
 module.exports.disLikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
-    req.params.cardId,
+    req.params.id,
     { $pull: { likes: req.user._id } },
     { new: true },
   )
