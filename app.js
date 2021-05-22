@@ -8,6 +8,7 @@ const { resourceError } = require('./controllers/resourceError');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { registrValidation, loginValidation } = require('./middlewares/validation');
+const { requestLogger, errorLogger } = require('./middlewares/logger'); 
 
 const { PORT = 3000 } = process.env;
 
@@ -24,6 +25,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+
 app.post('/signup', registrValidation, createUser);
 app.post('/signin', loginValidation, login);
 
@@ -31,6 +34,8 @@ app.use(auth);
 app.use('/users', userRoute);
 app.use('/cards', cardRoute);
 app.use('*', resourceError);
+
+app.use(errorLogger);
 
 app.use(errors());
 
