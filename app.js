@@ -10,17 +10,19 @@ const auth = require('./middlewares/auth');
 const { registrValidation, loginValidation } = require('./middlewares/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger'); 
 const cors = require('cors');
+const helmet = require('helmet')
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3005 } = process.env;
 
 const app = express();
 
 app.use(cookieParser());
+app.use(helmet());
 app.use(express.json());
 app.use(cors({
   origin: ['http://stepalin.students.nomoredomains.monster', 
-  'https://stepalin.students.nomoredomains.monster']
+  'https://stepalin.students.nomoredomains.monster', 'http://localhost:3000']
 }));
 app.use(express.urlencoded({ extended: true }));
 
