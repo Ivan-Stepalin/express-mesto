@@ -9,6 +9,8 @@ const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { registrValidation, loginValidation } = require('./middlewares/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger'); 
+const cors = require('cors');
+require('dotenv').config();
 
 const { PORT = 3000 } = process.env;
 
@@ -26,6 +28,14 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
+app.use(cors());
 
 app.post('/signup', registrValidation, createUser);
 app.post('/signin', loginValidation, login);
