@@ -18,6 +18,10 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors({
+  origin: ['http://stepalin.students.nomoredomains.monster', 
+  'https://stepalin.students.nomoredomains.monster']
+}));
 app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -35,10 +39,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use(cors({
-  origin: ['http://stepalin.students.nomoredomains.monster', 
-  'https://stepalin.students.nomoredomains.monster']
-}));
+
 
 app.post('/signup', registrValidation, createUser);
 app.post('/signin', loginValidation, login);
