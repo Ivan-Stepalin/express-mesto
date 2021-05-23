@@ -13,7 +13,7 @@ const cors = require('cors');
 const helmet = require('helmet')
 require('dotenv').config();
 
-const { PORT = 3005 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
