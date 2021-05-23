@@ -35,7 +35,10 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://stepalin.students.nomoredomains.monster/sign-up', 
+  'https://stepalin.students.nomoredomains.monster/sign-up']
+}));
 
 app.post('/signup', registrValidation, createUser);
 app.post('/signin', loginValidation, login);
