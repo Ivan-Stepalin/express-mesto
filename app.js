@@ -20,7 +20,10 @@ const app = express();
 app.use(cookieParser());
 app.use(helmet());
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ['http://stepalin.students.nomoredomains.monster',
+    'https://stepalin.students.nomoredomains.monster', 'http://localhost:3000'],
+}));
 app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
