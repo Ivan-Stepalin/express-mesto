@@ -2,15 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const helmet = require('helmet');
 const userRoute = require('./routes/users');
 const cardRoute = require('./routes/cards');
 const { resourceError } = require('./controllers/resourceError');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { registrValidation, loginValidation } = require('./middlewares/validation');
-const { requestLogger, errorLogger } = require('./middlewares/logger'); 
-const cors = require('cors');
-const helmet = require('helmet')
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 require('dotenv').config();
 
 const { PORT = 3000 } = process.env;
@@ -21,8 +21,8 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(express.json());
 app.use(cors({
-  origin: ['http://stepalin.students.nomoredomains.monster', 
-  'https://stepalin.students.nomoredomains.monster', 'http://localhost:3000']
+  origin: ['http://stepalin.students.nomoredomains.monster',
+    'https://stepalin.students.nomoredomains.monster', 'http://localhost:3000'],
 }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -41,8 +41,6 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-
-
 app.post('/signup', registrValidation, createUser);
 app.post('/signin', loginValidation, login);
 
@@ -56,7 +54,7 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
-  res.send({ message: err.message });
+  res.status(err.statusCode).send({ message: err.message });
   next();
 });
 
