@@ -48,10 +48,11 @@ module.exports.deleteCard = (req, res, next) => {
             .then((card) => res.send({ data: card }));
         } else if (req.user._id !== data.owner._id.toString()) {
           throw new ForbiddenError('У вас нет прав удалять чужую карточку');
-       }
-      }})
+        }
+      }
+    })
     .catch((err) => {
-      if(err.message === 'NotFound'){
+      if (err.message === 'NotFound') {
         throw new NotFoundError('Запрашиваемая карточка не найдена');
       }
     })
