@@ -46,11 +46,24 @@ module.exports.deleteCard = (req, res, next) => {
         if (req.user._id === data.owner._id.toString()) {
           Card.findByIdAndRemove(req.params.id)
             .then((card) => res.send({ data: card }));
-        } else {
+        } else if (req.user._id !== data.owner._id.toString()) {
           throw new ForbiddenError('У вас нет прав удалять чужую карточку');
-        }
+       }
+      }})
+    .catch((err) => {
+      if(err.message === 'NotFound'){
+        throw new NotFoundError('Запрашиваемая карточка не найдена');
       }
     })
+    // if (!data) {
+    //   throw new NotFoundError('Запрашиваемая карточка не найдена');
+    // }
+    // if (data.owner._id.toString() !== req.user._id) {
+    //   throw new ForbiddenError('Вы не можете удалить чужую карточку.');
+    // }
+    // Card.findByIdAndRemove(req.params.id)
+    //   .then((card) => res.status(200).send({data: card}))
+    //   .catch(next);
     .catch(next);
 };
 
